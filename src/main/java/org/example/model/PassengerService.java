@@ -9,7 +9,7 @@ public class PassengerService {
     {
         // to filter passengers by type, I will use the stream api and the filter method to filter out the passengers that match the given types
         // I will stream the list of passengers and then use the filter method to check if the passenger type matches any of the given types,
-        // I will use a for loop to check if the passenger type matches any of the given types, if it does then I will return true and if it doesn't then I will return false, this way I can filter out the passengers that match the given types.
+        // I will then use a for loop within the lambda to check if the passenger type matches any of the given types, if it does then I will return true and if it doesn't then I will return false, this way I can filter out the passengers that match the given types.
         return people.stream().filter((passenger) -> {
             for (PassengerType type : passengerType) {
                 if (passenger.getType() == type) {
