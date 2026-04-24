@@ -44,7 +44,8 @@ public class PassengerService {
     public Double computeTotalCost(Passenger passenger)
     {
         // to compute the total cost for a passenger, I will check if the passenger has any luggage,
-        // if they do then I will add 5 to the fare price for each piece of luggage, if they don't then I will just return the fare price
+        // if they do then I will add 5, this is inspired by the tests as it charges a 5 for every luggage
+        // to the fare price for each piece of luggage, if they don't then I will just return the fare price
         if (passenger.getLuggageCount() != null && passenger.getLuggageCount() > 0) {
             return passenger.getFarePrice() + (passenger.getLuggageCount() * 5);
         }
