@@ -1,9 +1,6 @@
 package org.example.model;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PassengerService {
@@ -47,9 +44,9 @@ public class PassengerService {
     public Double computeTotalCost(Passenger passenger)
     {
         // to compute the total cost for a passenger, I will check if the passenger has any luggage,
-        // if they do then I will add 10 to the fare price for each piece of luggage, if they don't then I will just return the fare price
+        // if they do then I will add 5 to the fare price for each piece of luggage, if they don't then I will just return the fare price
         if (passenger.getLuggageCount() != null && passenger.getLuggageCount() > 0) {
-            return passenger.getFarePrice() + (passenger.getLuggageCount() * 10);
+            return passenger.getFarePrice() + (passenger.getLuggageCount() * 5);
         }
         return passenger.getFarePrice();
     }
@@ -76,8 +73,11 @@ public class PassengerService {
         // I will use the groupingBy collector to group the passengers by type and then use
         // the counting collector to count the number of passengers in each group, then I will use the maxBy collector
         // to find the group with the maximum count, and then I will use the get method to get the most common type from the optional.
+        // if there is a value present otherwise I return a null value.
+
         return passengers.stream().collect(Collectors.groupingBy(Passenger::getType, Collectors.counting()))
-                .entrySet().stream().max(Comparator.comparingLong(Map.Entry::getValue)).get().getKey();
+                .entrySet().stream().max(Comparator.comparingLong(Map.Entry::getValue))
+                .map(Map.Entry::getKey).orElse(null);
     }
 
     public int boardOrder(Passenger passenger) {
