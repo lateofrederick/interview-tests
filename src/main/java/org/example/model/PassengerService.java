@@ -2,7 +2,9 @@ package org.example.model;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class PassengerService {
 
@@ -55,19 +57,27 @@ public class PassengerService {
     public List<Passenger> filterByType(List<Passenger> passengers, PassengerType... passengerType)
     {
         // I will use a for loop to filter out the passengers that match the given types
-        // I will create a new list to store the filtered passengers, then I will loop through the list of passengers and check if the passenger type matches any of the given types, if it does
+        // I will create a new list to store the filtered passengers, then I will loop through the list of passengers and check if
+        // he passenger type matches any of the given types, if it does
         // then I will add the passenger to the filtered passengers list, and at the end I will return the filtered passengers list.
         throw new UnsupportedOperationException ("Implement function that filters passengers by given types");
     }
 
     public List<Passenger> filterByFare(List<Passenger> passengers, int fareFrom)
     {
-        throw new UnsupportedOperationException ("Implement function that filters passengers by given fareFrom");
+        // to filter passengers by fare, I will use the stream api and the filter method to filter out the passengers that match the given fare
+        // and since the method return type is a list of passengers, I will convert the stream to a list using the toList method.
+        return passengers.stream().filter((passenger) -> passenger.getFarePrice() >= fareFrom).toList();
     }
 
     public PassengerType findMostCommonPassengerType(List<Passenger> passengers)
     {
-        throw new UnsupportedOperationException ("Return the most common passenger type among all passengers");
+        // I will use the stream api and the collectors to find the most common type
+        // I will use the groupingBy collector to group the passengers by type and then use
+        // the counting collector to count the number of passengers in each group, then I will use the maxBy collector
+        // to find the group with the maximum count, and then I will use the get method to get the most common type from the optional.
+        return passengers.stream().collect(Collectors.groupingBy(Passenger::getType, Collectors.counting()))
+                .entrySet().stream().max(Comparator.comparingLong(Map.Entry::getValue)).get().getKey();
     }
 
     public int boardOrder(Passenger passenger) {
@@ -91,7 +101,11 @@ public class PassengerService {
     }
 
     public UUID findPassengerIdBySeatNumber(List<Passenger> passengers, String seatNumber) {
-        throw new UnsupportedOperationException ("Implement function that returns passenger id by seat number");
+        // to find the passenger id by seat number, I will use the stream api and the filter method to filter out the passenger that matches the given seat number
+        // then I will use the findFirst method to get the first passenger that matches the given seat number,
+        // since there should be only one passenger with a given seat number, I will use the get method to get
+        // the passenger from the optional and then return the id of the passenger.
+        return passengers.stream().filter((passenger) -> passenger.getSeatNumber().equals(seatNumber)).findFirst().get().getId();
     }
 
     public UUID findPassengerIdWithLowestSeatNumber(List<Passenger> passengers) {
